@@ -4,6 +4,14 @@ body {
 
 }
 
+.about-section {
+  margin-bottom: 80px;
+}
+
+.content-container {
+  margin-top: 60px;
+}
+
 .hero {
   height: 800px;
   background: url('no text.jpg') no-repeat center center/cover;
@@ -53,6 +61,7 @@ body {
   margin: 10px;
   margin-right: 40px;
   margin-left: 40px;
+  padding-top: 30px;
   padding-left: 50px;
   padding-right: 50px;
   font-size: 18px;
