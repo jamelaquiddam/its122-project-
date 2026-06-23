@@ -4,6 +4,10 @@ body {
   margin-right: auto;
 }
 
+location-container p {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .hero {
   /* Change height: 0px; to a visible height */
   height: 60vh; /* Using viewport height for responsiveness */
@@ -34,6 +38,7 @@ body {
 
 .room {
   font-family: "Shrikhand", serif;
+  z-index: 2;
   color: white;
   font-size: 70px;
   text-shadow: 4px 4px 10px rgb(0, 0, 0);
