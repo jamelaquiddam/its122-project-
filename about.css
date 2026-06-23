@@ -55,8 +55,10 @@ body {
   font-size: 60px;
   text-shadow: 4px 4px 10px rgb(0, 0, 0);
   align-items: center;
+  z-index: 2;
 }
 .text-content{
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
   margin: 10px;
   margin-right: 40px;
@@ -67,10 +69,11 @@ body {
   font-size: 18px;
 }
 .title{
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
   font-size: 40px;
   font-weight: 30px;
-  margin-top: 30px;
+  margin-top: 40px;
   color: rgb(143, 127, 108);
 }
 
