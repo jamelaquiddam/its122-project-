@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account — MJJQ Transient Room</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- ===== Top Bar ===== -->
+<div class="top-bar">
+  <div class="contact-info">
+    <i class="fas fa-phone icon"></i>
+    <a href="tel:+639054373231">+63 905 437-3231</a>
+    &nbsp;&nbsp;
+    <i class="fas fa-envelope icon" style="margin-left:10px"></i>
+    <a href="mailto:mjjqtransient@gmail.com">mjjqtransient@gmail.com</a>
+  </div>
+</div>
+
+<!-- ===== Navbar ===== -->
+<div class="navbar-wrapper">
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="MJJQ Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"/>
+      <span style="display:none; font-size:1.2rem; font-weight:800; color:#1a1a1a;">MJJQ</span>
+    </a>
+    <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="aboutUs.html">About Us</a></li>
+      <li><a href="ROOMS_RATES_PAGE.html">Rooms & Rates</a></li>
+      <li><a href="CONTACT_RESERVATION.html">Contact</a></li>
+      <li><a href="login.html" class="btn-nav">Login</a></li>
+    </ul>
+  </nav>
+</div>
+
+<!-- ===== Toast Container ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ===== Auth Page ===== -->
+<main class="auth-page" style="padding: 36px 20px;">
+  <div class="auth-container fade-in" style="max-width:1040px;">
+
+    <!-- Left Banner -->
+    <div class="auth-banner">
+      <div class="auth-banner-inner">
+        <img src="logo2.png" alt="MJJQ Logo" class="banner-logo" onerror="this.style.display='none'" />
+        <h2>Join MJJQ</h2>
+        <div class="banner-divider"></div>
+        <p>Create your free account and enjoy seamless booking, exclusive offers, and personalized service at MJJQ Transient Room.</p>
+        <ul style="list-style:none; margin-top:18px; text-align:left; display:inline-block;">
+          <li style="color:rgba(255,255,255,0.75); font-size:0.88rem; margin-bottom:10px;">
+            <i class="fas fa-check-circle" style="color:var(--taupe-light); margin-right:8px;"></i> Easy online reservations
+          </li>
+          <li style="color:rgba(255,255,255,0.75); font-size:0.88rem; margin-bottom:10px;">
+            <i class="fas fa-check-circle" style="color:var(--taupe-light); margin-right:8px;"></i> Track your booking history
+          </li>
+          <li style="color:rgba(255,255,255,0.75); font-size:0.88rem;">
+            <i class="fas fa-check-circle" style="color:var(--taupe-light); margin-right:8px;"></i> Exclusive member discounts
+          </li>
+        </ul>
+        <div class="switch-link" style="margin-top:28px;">
+          <p>Already have an account?</p>
+          <a href="login.html" class="btn-outline-white">Sign In</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Form Panel -->
+    <div class="auth-form-panel">
+      <h1 class="form-title">Create Account</h1>
+      <p class="form-subtitle">Fill in your details below to get started. <em>Admin accounts cannot be created here.</em></p>
+
+      <!-- Alert Box -->
+      <div class="alert-box error" id="regAlert">
+        <i class="fas fa-circle-exclamation"></i>
+        <span id="regAlertMsg">Please fix the errors below.</span>
+      </div>
+      <div class="alert-box success" id="regSuccess">
+        <i class="fas fa-check-circle"></i>
+        <span>Account created successfully! Redirecting to login…</span>
+      </div>
+
+      <!-- Registration Form -->
+      <form id="registerForm" novalidate autocomplete="off">
+
+        <!-- Full Name + Username -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="regFullName">Full Name <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="fas fa-id-card input-icon"></i>
+              <input type="text" id="regFullName" placeholder="Juan dela Cruz" autocomplete="name" />
+            </div>
+            <div class="field-msg error" id="regFullNameErr"><i class="fas fa-circle-xmark"></i> Full name is required.</div>
+          </div>
+          <div class="form-group">
+            <label for="regUsername">Username <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="fas fa-at input-icon"></i>
+              <input type="text" id="regUsername" placeholder="juandelacruz" autocomplete="username" />
+            </div>
+            <div class="field-msg error" id="regUsernameErr"><i class="fas fa-circle-xmark"></i> Username required (min 4 chars).</div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="regEmail">Email Address <span class="req">*</span></label>
+          <div class="input-wrap">
+            <i class="fas fa-envelope input-icon"></i>
+            <input type="email" id="regEmail" placeholder="juan@email.com" autocomplete="email" />
+          </div>
+          <div class="field-msg error" id="regEmailErr"><i class="fas fa-circle-xmark"></i> Enter a valid email address.</div>
+        </div>
+
+        <!-- Password + Confirm Password -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="regPassword">Password <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="fas fa-lock input-icon"></i>
+              <input type="password" id="regPassword" placeholder="Min. 8 characters" oninput="checkPasswordStrength(this.value)" autocomplete="new-password" />
+              <button type="button" class="toggle-pw" onclick="togglePassword('regPassword', this)">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <!-- Password strength bar -->
+            <div class="pw-strength-bar" id="strengthBar">
+              <span id="bar1"></span><span id="bar2"></span><span id="bar3"></span><span id="bar4"></span>
+            </div>
+            <div class="pw-strength-label" id="strengthLabel"></div>
+            <div class="field-msg error" id="regPwErr"><i class="fas fa-circle-xmark"></i> Password must be at least 8 characters.</div>
+          </div>
+          <div class="form-group">
+            <label for="regConfirmPw">Confirm Password <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="fas fa-lock input-icon"></i>
+              <input type="password" id="regConfirmPw" placeholder="Repeat your password" autocomplete="new-password" />
+              <button type="button" class="toggle-pw" onclick="togglePassword('regConfirmPw', this)">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <div class="field-msg error" id="regConfirmErr"><i class="fas fa-circle-xmark"></i> Passwords do not match.</div>
+          </div>
+        </div>
+
+        <!-- Contact Number (optional) -->
+        <div class="form-group">
+          <label for="regContact">Contact Number <span style="color:var(--muted); font-weight:400; font-size:0.8rem;">(optional)</span></label>
+          <div class="input-wrap">
+            <i class="fas fa-phone input-icon"></i>
+            <input type="tel" id="regContact" placeholder="+63 900 000-0000" autocomplete="tel" />
+          </div>
+          <div class="field-msg error" id="regContactErr"><i class="fas fa-circle-xmark"></i> Enter a valid PH mobile number.</div>
+        </div>
+
+        <!-- Terms and Conditions -->
+        <div class="form-group" style="margin-bottom:20px;">
+          <label class="check-label" style="align-items:flex-start; gap:10px;">
+            <input type="checkbox" id="regTerms" style="margin-top:3px;" />
+            <span style="font-size:0.86rem; color:var(--text);">
+              I agree to the <a href="#" style="color:var(--taupe); font-weight:600;">Terms and Conditions</a>
+              and <a href="#" style="color:var(--taupe); font-weight:600;">Privacy Policy</a> of MJJQ Transient Room.
+            </span>
+          </label>
+          <div class="field-msg error" id="regTermsErr" style="margin-top:6px;"><i class="fas fa-circle-xmark"></i> You must accept the Terms and Conditions.</div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-primary" id="registerBtn">
+          <div class="spinner" id="registerSpinner"></div>
+          <i class="fas fa-user-plus" id="registerBtnIcon"></i>
+          <span id="registerBtnText">Create My Account</span>
+        </button>
+      </form>
+
+      <p style="text-align:center; margin-top:20px; font-size:0.88rem; color:var(--muted);">
+        Already have an account? <a href="login.html" style="color:var(--taupe); font-weight:600;">Sign in here</a>
+      </p>
+    </div>
+    <!-- End Form Panel -->
+
+  </div>
+</main>
+
+<!-- ===== Footer ===== -->
+<div class="mini-footer">
+  &copy; 2024 MJJQ Transient Room. All rights reserved. &nbsp;|&nbsp;
+  Barangay Militar, Fort Magsaysay, Palayan City
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

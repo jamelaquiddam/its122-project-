@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — MJJQ Transient Room</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- ===== Top Bar ===== -->
+<div class="top-bar">
+  <div class="contact-info">
+    <i class="fas fa-phone icon"></i>
+    <a href="tel:+639054373231">+63 905 437-3231</a>
+    &nbsp;&nbsp;
+    <i class="fas fa-envelope icon" style="margin-left:10px"></i>
+    <a href="mailto:mjjqtransient@gmail.com">mjjqtransient@gmail.com</a>
+  </div>
+</div>
+
+<!-- ===== Navbar ===== -->
+<div class="navbar-wrapper">
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="MJJQ Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"/>
+      <span style="display:none; font-size:1.2rem; font-weight:800; color:#1a1a1a; letter-spacing:-0.5px;">MJJQ</span>
+    </a>
+    <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="aboutUs.html">About Us</a></li>
+      <li><a href="ROOMS_RATES_PAGE.html">Rooms & Rates</a></li>
+      <li><a href="CONTACT_RESERVATION.html">Contact</a></li>
+      <li><a href="login.html" class="active btn-nav">Login</a></li>
+    </ul>
+  </nav>
+</div>
+
+<!-- ===== Toast Container ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ===== Auth Page ===== -->
+<main class="auth-page">
+  <div class="auth-container fade-in">
+
+    <!-- Left Banner -->
+    <div class="auth-banner">
+      <div class="auth-banner-inner">
+        <img src="logo2.png" alt="MJJQ Logo" class="banner-logo" onerror="this.style.display='none'" />
+        <h2>Welcome Back</h2>
+        <div class="banner-divider"></div>
+        <p>Your home away from home — sign in to manage your bookings and experience the comfort of MJJQ.</p>
+        <div class="switch-link">
+          <p>Don't have an account yet?</p>
+          <a href="register.html" class="btn-outline-white">Create an Account</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Form Panel -->
+    <div class="auth-form-panel">
+      <h1 class="form-title">Sign In</h1>
+      <p class="form-subtitle">Access your dashboard by selecting your role below.</p>
+
+      <!-- Role Tabs -->
+      <div class="role-tabs" role="tablist">
+        <button class="role-tab active" id="tabUser" onclick="setRole('user')" role="tab">
+          <i class="fas fa-user"></i> <span>Guest / User</span>
+        </button>
+        <button class="role-tab" id="tabAdmin" onclick="setRole('admin')" role="tab">
+          <i class="fas fa-shield-halved"></i> <span>Administrator</span>
+        </button>
+      </div>
+
+      <!-- Alert Box -->
+      <div class="alert-box error" id="loginAlert" role="alert">
+        <i class="fas fa-circle-exclamation"></i>
+        <span id="loginAlertMsg">Invalid credentials. Please try again.</span>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" novalidate autocomplete="on">
+        <input type="hidden" id="loginRole" value="user" />
+
+        <!-- Username / Email -->
+        <div class="form-group">
+          <label for="loginEmail">Username or Email <span class="req">*</span></label>
+          <div class="input-wrap">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" id="loginEmail" name="email" placeholder="Enter your username or email" autocomplete="username" />
+          </div>
+          <div class="field-msg error" id="emailErr"><i class="fas fa-circle-xmark"></i> This field is required.</div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="loginPassword">Password <span class="req">*</span></label>
+          <div class="input-wrap">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="loginPassword" name="password" placeholder="Enter your password" autocomplete="current-password" />
+            <button type="button" class="toggle-pw" onclick="togglePassword('loginPassword', this)" title="Toggle password">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="field-msg error" id="pwErr"><i class="fas fa-circle-xmark"></i> This field is required.</div>
+        </div>
+
+        <!-- Remember Me + Forgot -->
+        <div class="check-row">
+          <label class="check-label">
+            <input type="checkbox" id="rememberMe" /> Remember me
+          </label>
+          <a href="#" class="forgot-link" onclick="openForgot(); return false;">Forgot Password?</a>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-primary" id="loginBtn">
+          <div class="spinner" id="loginSpinner"></div>
+          <i class="fas fa-right-to-bracket" id="loginBtnIcon"></i>
+          <span id="loginBtnText">Sign In</span>
+        </button>
+      </form>
+
+      <div class="or-divider">or</div>
+
+      <a href="register.html" style="text-decoration:none;">
+        <button class="btn-secondary" type="button">
+          <i class="fas fa-user-plus"></i> Create a New Account
+        </button>
+      </a>
+
+      <p style="text-align:center; font-size:0.78rem; color:var(--muted); margin-top:20px;">
+        By signing in, you agree to our
+        <a href="#" style="color:var(--taupe);">Terms of Service</a> and
+        <a href="#" style="color:var(--taupe);">Privacy Policy</a>.
+      </p>
+    </div>
+    <!-- End Form Panel -->
+
+  </div>
+</main>
+
+<!-- ===== Forgot Password Modal ===== -->
+<div class="forgot-overlay" id="forgotOverlay">
+  <div class="forgot-box">
+    <h3><i class="fas fa-key" style="color:var(--taupe); margin-right:8px;"></i>Reset Password</h3>
+    <p>Enter the email address linked to your account and we'll send a reset link.</p>
+
+    <div class="alert-box success" id="forgotSuccess" style="margin-bottom:14px;">
+      <i class="fas fa-check-circle"></i>
+      <span>Reset link sent! Check your inbox.</span>
+    </div>
+
+    <form id="forgotForm" novalidate>
+      <div class="form-group">
+        <label for="forgotEmail">Email Address <span class="req">*</span></label>
+        <div class="input-wrap">
+          <i class="fas fa-envelope input-icon"></i>
+          <input type="email" id="forgotEmail" placeholder="you@email.com" />
+        </div>
+        <div class="field-msg error" id="forgotEmailErr" style="display:none;"><i class="fas fa-circle-xmark"></i> Enter a valid email.</div>
+      </div>
+      <button type="submit" class="btn-primary" style="margin-bottom:10px;">
+        <div class="spinner" id="forgotSpinner"></div>
+        <span>Send Reset Link</span>
+      </button>
+      <button type="button" class="btn-secondary" onclick="closeForgot()">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===== Footer ===== -->
+<div class="mini-footer">
+  &copy; 2024 MJJQ Transient Room. All rights reserved. &nbsp;|&nbsp;
+  Barangay Militar, Fort Magsaysay, Palayan City
+</div>
+
+<script src="login.js"></script>
+</body>
+</html>
