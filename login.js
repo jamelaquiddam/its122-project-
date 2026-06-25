@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Eto ang pinakamahalaga: pinipigilan nito ang automatic page refresh!
+            e.preventDefault(); 
 
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
@@ -113,27 +113,57 @@ document.addEventListener('DOMContentLoaded', () => {
             const btnIcon = document.getElementById('loginBtnIcon');
             const role = document.getElementById('loginRole').value;
 
-            // Simple validation
             if (!email || !password) {
                 alertBox.classList.add('show');
                 alertMsg.innerText = "Please enter your email and password.";
                 return;
             }
 
-            // Itago ang alert kung meron man
             alertBox.classList.remove('show');
-
-            // Ipakita ang loading animation
             btnText.innerText = "Signing in...";
             if (btnIcon) btnIcon.style.display = 'none';
             if (spinner) spinner.classList.add('show');
             
-            // Gayahin natin na may nagche-check na backend na umaabot ng 2 segundo
-            setTimeout(() => {
-                // DITO MO BABAGUHIN: Kung saan siya dapat pumunta pagkatapos mag-login
-                // Pinalitan ko ng "dashboard.html" bilang halimbawa base sa CSS mo
-                window.location.href = "dashboard.html"; 
-            }, 2000);
+            // I-setup ang data para ipasa sa PHP
+            const formData = new FormData();
+            formData.append('email', email);
+            formData.append('password', password);
+            formData.append('role', role);
+
+            // Ipadala sa login.php
+            fetch('login.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                spinner.classList.remove('show');
+                
+                if (data.trim() === 'success') {
+                    btnText.innerText = "Redirecting...";
+                    setTimeout(() => {
+                        // Saan pupunta kapag success?
+                        if (role === 'admin') {
+                            window.location.href = "dashboard.html"; // Palitan mo kung ano ang file name ng admin dashboard mo
+                        } else {
+                            window.location.href = "index.html"; // Main page para sa normal user
+                        }
+                    }, 1500);
+                } else {
+                    alertBox.classList.add('show');
+                    alertMsg.innerText = data.replace('error: ', '');
+                    btnText.innerText = "Sign In";
+                    if (btnIcon) btnIcon.style.display = 'inline-block';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                spinner.classList.remove('show');
+                alertBox.classList.add('show');
+                alertMsg.innerText = "Connection error. Please try again.";
+                btnText.innerText = "Sign In";
+                if (btnIcon) btnIcon.style.display = 'inline-block';
+            });
         });
     }
 
@@ -144,16 +174,16 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
 
             const alertError = document.getElementById('regAlert');
+            const alertMsg = document.getElementById('regAlertMsg');
             const alertSuccess = document.getElementById('regSuccess');
             const btnText = document.getElementById('registerBtnText');
             const spinner = document.getElementById('registerSpinner');
             const btnIcon = document.getElementById('registerBtnIcon');
             const terms = document.getElementById('regTerms');
 
-            // I-check kung chineck ang Terms and Conditions
             if (!terms.checked) {
                 alertError.classList.add('show');
-                document.getElementById('regAlertMsg').innerText = "You must accept the Terms and Conditions.";
+                alertMsg.innerText = "You must accept the Terms and Conditions.";
                 return;
             }
 
@@ -162,16 +192,43 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btnIcon) btnIcon.style.display = 'none';
             if (spinner) spinner.classList.add('show');
 
-            setTimeout(() => {
-                // Pagkatapos mag-load, ipakita ang success banner at pumunta sa login
-                alertSuccess.classList.add('show');
+            // I-setup ang data na ipapasa sa PHP
+            const formData = new FormData();
+            formData.append('regFullName', document.getElementById('regFullName').value);
+            formData.append('regUsername', document.getElementById('regUsername').value);
+            formData.append('regEmail', document.getElementById('regEmail').value);
+            formData.append('regPassword', document.getElementById('regPassword').value);
+
+            // Ipadala sa register.php
+            fetch('register.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
                 spinner.classList.remove('show');
-                btnText.innerText = "Redirecting...";
                 
-                setTimeout(() => {
-                    window.location.href = "login.html";
-                }, 1500);
-            }, 2000);
+                if (data.trim() === 'success') {
+                    alertSuccess.classList.add('show');
+                    btnText.innerText = "Redirecting...";
+                    setTimeout(() => {
+                        window.location.href = "login.html";
+                    }, 1500);
+                } else {
+                    alertError.classList.add('show');
+                    alertMsg.innerText = data.replace('error: ', '');
+                    btnText.innerText = "Create My Account";
+                    if (btnIcon) btnIcon.style.display = 'inline-block';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                spinner.classList.remove('show');
+                alertError.classList.add('show');
+                alertMsg.innerText = "Connection error. Please try again.";
+                btnText.innerText = "Create My Account";
+                if (btnIcon) btnIcon.style.display = 'inline-block';
+            });
         });
     }
 
